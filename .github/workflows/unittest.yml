@@ -25,11 +25,18 @@ jobs:
         pip install mock
         pip install fastapi
         pip install pydantic
-        sudo apt install mysql-server-5.7
-        sudo mysql 
-        set global max_allowed_packet=67108864;
-        exit
-               
+
+    - uses: shogo82148/actions-setup-mysql@v1
+      with:
+        mysql-version: '8.0'
+        my-cnf: |
+          innodb_log_file_size=256MB
+          innodb_buffer_pool_size=512MB
+          max_allowed_packet=16MB
+          max_connections=50
+          local_infile=1
+        root-password: ''
+       
     -  name: run unittest
        run: |
         # calling via python will also add the current directory to sys.path
