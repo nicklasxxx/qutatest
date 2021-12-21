@@ -25,17 +25,7 @@ jobs:
         pip install mock
         pip install fastapi
         pip install pydantic
-        
-    - name: Set up MySQL
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        mysql root password: ''
-        mysql user: 'developer'
-        mysql password: '123'
-        mysql database: 'test_db'
-    
-    - name: expend mysql packet file
-      run: |
+        sudo apt install mysql-server
         sudo mysql 
         set global max_allowed_packet=67108864;
         exit
