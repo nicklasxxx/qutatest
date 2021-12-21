@@ -25,7 +25,7 @@ jobs:
         pip install mock
         pip install fastapi
         pip install pydantic
-        sudo apt install mysql-server
+        sudo apt install mysql-server-5.7
         sudo mysql 
         set global max_allowed_packet=67108864;
         exit
