@@ -1,0 +1,47 @@
+name: Python application build and test only
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install unittest2
+        pip install mysql
+        pip install mysql.connector
+        pip install mock
+        pip install fastapi
+        pip install pydantic
+        
+    - name: Set up MySQL
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql root password: ''
+        mysql user: 'developer'
+        mysql password: '123'
+        mysql database: 'test_db'
+    
+    - name: expend mysql packet file
+      run: |
+        sudo mysql 
+        set global max_allowed_packet=67108864;
+        exit
+               
+    -  name: run unittest
+       run: |
+        # calling via python will also add the current directory to sys.path
+        cd app/
+        python -m unittest test_service.py
